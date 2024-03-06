@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import TodoForm from './components/TodoForm';
 import TodosList from './components/TodosList';
 
@@ -9,10 +9,18 @@ type Todo = {
 };
 
 function App() {
-  const [todos, setTodos] = useState<Todo[]>([]);
+  const [todos, setTodos] = useState<Todo[]>(() => {
+    const localValue = localStorage.getItem('items');
+
+    if (localValue === null) return [];
+    return JSON.parse(localValue);
+  });
+
+  useEffect(() => {
+    localStorage.setItem('items', JSON.stringify(todos));
+  }, [todos]);
 
   function addTodo(newItem: string) {
-    console.log('Hello World', newItem);
     setTodos((currentTodos) => [
       ...currentTodos,
       { id: crypto.randomUUID(), todo: newItem, completed: false },
@@ -25,6 +33,7 @@ function App() {
         if (todo.id === id) {
           return { ...todo, completed };
         }
+        return todo;
       });
     });
   }

@@ -1,4 +1,5 @@
 import React from 'react';
+import TodoItem from './TodoItem';
 
 type Todo = {
   id: string;
@@ -12,29 +13,18 @@ function TodosList({
   removeTodo,
 }: {
   todos: Todo[];
-  toggleTodo: () => void;
-  removeTodo: () => void;
+  toggleTodo: (id: string, completed: boolean) => void;
+  removeTodo: (id: string) => void;
 }) {
   return (
     <div>
-      {todos.map((todo, key) => (
-        <div
-          key={key}
-          className="border-b border-b-slate-700 py-4 flex items-center"
-        >
-          <input
-            type="checkbox"
-            checked={todo.completed}
-            onChange={(e) => toggleTodo(todo.id, e.target.checked)}
-          />
-          <span className="flex-grow ml-4">{todo.todo}</span>
-          <span
-            className="bg-red-600 p-2 w-auto cursor-pointer"
-            onClick={() => removeTodo(todo.id)}
-          >
-            Remove
-          </span>
-        </div>
+      {todos.map((todo) => (
+        <TodoItem
+          key={todo.id}
+          todo={todo}
+          toggleTodo={toggleTodo}
+          removeTodo={removeTodo}
+        />
       ))}
     </div>
   );

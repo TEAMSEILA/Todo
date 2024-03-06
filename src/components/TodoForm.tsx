@@ -5,6 +5,7 @@ function TodoForm({ addTodo }: { addTodo: (newItem: string) => void }) {
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
+    if (newItem === '') return;
     addTodo(newItem);
     setNewItem('');
   }
@@ -22,6 +23,7 @@ function TodoForm({ addTodo }: { addTodo: (newItem: string) => void }) {
           value={newItem}
         />
       </div>
+
       <button
         type="submit"
         className="w-full bg-orange-600 rounded py-3 font-bold"
